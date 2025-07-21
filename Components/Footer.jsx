@@ -1,7 +1,6 @@
-
 function Footer(){
     return <>
-    <h4>Lorem Ipsum</h4>
+    <footer>Lorem Ipsum</footer>
 
     </>
 }

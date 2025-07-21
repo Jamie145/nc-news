@@ -6,16 +6,28 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer"; 
 import Topics from "../Components/Topics"; 
 import Articles from "../Components/Articles"; 
-import Card from "../Components/Card"
+import ArticlePage from "../Components/ArticlePage";
+import Card from "../Components/Card";
 
 function App() {
   
   const [articles, setArticles] = useState([]);
+  const [mostVotes, setMostVotes] = useState(null);
   
   useEffect(() => {
     axios.get("https://nc-action-news.onrender.com/api/articles")
       .then(response => {
-        setArticles(response.data.articles);
+        const articlesData = response.data.articles;
+        setArticles(articlesData);
+        console.log("Articles fetched in App.jsx:", articlesData);
+
+        const mostVotes = articlesData.reduce((max, article) => {
+          return article.votes > max.votes ? article : max;
+        }, articlesData[0]);
+
+        setMostVotes(mostVotes);
+        console.log("Most voted article:", mostVotes)
+
       })
       .catch(error => {
         console.error("Error fetching articles:", error);
@@ -29,10 +41,13 @@ function App() {
       <Header />
       <Routes>
         <Route path="/topics" element={<Topics />} />
+        
         <Route path="/articles" element={<Articles articles={articles}/>} />
+        <Route path="/articles/:article_id" element={<ArticlePage />} />
       </Routes>
-      <Card  article="Article Name"/> <br />
-      <Card article="Article Name"/>
+      {/* <Card  article={mostVotes}/> <br />
+      <Card article={mostVotes}/> */}
+      
       <Footer />
     </div>
   );
