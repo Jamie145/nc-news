@@ -1,8 +1,11 @@
-function Footer(){
-    return <>
-    <footer>Lorem Ipsum</footer>
-
-    </>
-}
-
-export default Footer
+function Footer() {
+    return (
+      <footer className="main-footer"> {/* Added main-footer class */}
+        <p>&copy; {new Date().getFullYear()} NC Action News</p>
+        <p>All rights reserved.</p>
+      </footer>
+    );
+  }
+  
+  export default Footer;
+  

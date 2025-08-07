@@ -1,53 +1,26 @@
 import { Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
-
-import axios from "axios";
-import Header from "../Components/Header"; 
-import Footer from "../Components/Footer"; 
-import Topics from "../Components/Topics"; 
-import Articles from "../Components/Articles"; 
+import Header from "../Components/Header";
+import Footer from "../Components/Footer";
+import Topics from "../Components/Topics";
+import Articles from "../Components/Articles";
 import ArticlePage from "../Components/ArticlePage";
-import Card from "../Components/Card";
+import Home from "../Components/Home";
 
 function App() {
-  
-  const [articles, setArticles] = useState([]);
-  const [mostVotes, setMostVotes] = useState(null);
-  
-  useEffect(() => {
-    axios.get("https://nc-action-news.onrender.com/api/articles")
-      .then(response => {
-        const articlesData = response.data.articles;
-        setArticles(articlesData);
-        console.log("Articles fetched in App.jsx:", articlesData);
-
-        const mostVotes = articlesData.reduce((max, article) => {
-          return article.votes > max.votes ? article : max;
-        }, articlesData[0]);
-
-        setMostVotes(mostVotes);
-        console.log("Most voted article:", mostVotes)
-
-      })
-      .catch(error => {
-        console.error("Error fetching articles:", error);
-      });
-  }, []);
-  
-  
+  // This version of App.jsx has NO article state and NO article-related API call.
+  // It only handles the main routing and renders the header and footer.
   
   return (
-    <div>
+    <div className="flex flex-col min-h-screen font-inter">
       <Header />
-      <Routes>
-        <Route path="/topics" element={<Topics />} />
-        
-        <Route path="/articles" element={<Articles articles={articles}/>} />
-        <Route path="/articles/:article_id" element={<ArticlePage />} />
-      </Routes>
-      {/* <Card  article={mostVotes}/> <br />
-      <Card article={mostVotes}/> */}
-      
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/topics" element={<Topics />} />
+          <Route path="/articles" element={<Articles />} /> 
+          <Route path="/articles/:article_id" element={<ArticlePage />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   );
